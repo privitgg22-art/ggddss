@@ -1,0 +1,20 @@
+name: deploy to server
+on:
+    push:
+        branches:
+            - main
+jobs:
+    deploy:
+        runs on: ubuntun-latest
+        steps:
+            -name: checkout code
+            uses: action/checkout@v3
+            -name: connect & deploy
+            uses: appleboy/shh-action@v1.0.0
+            with:
+                host: ${{secret.HOST}}
+                username: ${{secret.USERNAME}}
+                password: ${{secret.PASSWORD}}
+                script: | 
+                    git pull origin main 
+                    python3 main.py
